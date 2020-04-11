@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: image_classification
+   spec:
+   template:
+      metadata
+      name: image_classification
+      spec:
+         containers:
+            - name: classification
+            image: senthil338/my-college-proj:1
+            command: ["python", "SUCCESS"]
+            restartPocliy: Never

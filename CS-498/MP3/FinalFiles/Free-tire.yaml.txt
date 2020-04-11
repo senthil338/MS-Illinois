@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+namespace: free-service
+metadata:
+  generateName:  mnist-deployment-
+spec:
+  template:
+    metadata:
+       labels:
+        app: mnist
+    spec:
+        containers:
+        - name: mnist
+          image : senthil338/my-college-proj:myclassify
+          imagePullPolicy: Always
+          command: [ "echo", "SUCCESS" ]
+          resources:
+            limits:
+                cpu: "0.8"
+            requestes:
+                cpu: "0.8"
+          env:
+            - name: DATASET

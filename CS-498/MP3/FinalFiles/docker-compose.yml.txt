@@ -1,0 +1,8 @@
+version: '2'
+services:
+  python-container:
+    image: senthil338/my-college-proj:1
+    environment:
+      - DATASET=mnist
+      - TYPE=ff
+~

@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: image_classification
+   spec:
+   template:
+      metadata
+      name: image_classification
+      spec:
+         containers:
+            - name: classification
+            image: senthil338/my-college-proj:1
+            command: ["python", "SUCCESS"]
+            restartPocliy: Never
+
+
+Cannot create cluster 'mycluster' because us-east-1e, 
+the targeted availability zone, does not currently have sufficient capacity to support the cluster.
+ Retry and choose from these availability zones: us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f 
+(Service: AmazonEKS; Status Code: 400; Error Code: UnsupportedAvailabilityZoneException; Request ID: 9b49fb93-7527-44f2-90a4-7fd3042125c5)
+
+
+https://docs.docker.com/engine/reference/commandline/ps/
+https://docs.docker.com/docker-hub/repos/
+https://docs.docker.com/get-started/part2/
+
+kube-control on yaml
+
+kubecontrol create -l yaml file 

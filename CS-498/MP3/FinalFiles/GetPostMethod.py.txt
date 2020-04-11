@@ -1,0 +1,57 @@
+import yaml
+from flask import Flask
+from flask import json
+import json
+from flask import request
+app = Flask(__name__)
+from kubernetes import client, config
+
+
+@app.route('/img-classification/free',methods=['POST'])
+def main2():
+    config.load_kube_config()
+
+    with open("free-tier.yaml") as f:
+        #dep = yaml.safe_load(f)
+        #k8s_apps_v1 = client.BatchV1Api()
+        #resp = k8s_apps_v1.create_namespaced_job(body=dep, namespace="free-service")
+        #print("Deployment created. status='%s'" % resp.metadata.name)
+
+        #return str(resp.metadata.name)r
+        return str(200)
+
+@app.route('/img-classification/premium',methods=['POST'])
+def main3():
+    config.load_kube_config()
+
+    with open("premium-tier.yaml") as f:
+        dep = yaml.safe_load(f)
+        k8s_apps_v1 = client.BatchV1Api()
+        resp = k8s_apps_v1.create_namespaced_job(body=dep, namespace="default")
+        print("Deployment created. status='%s'" % resp.metadata.name)
+
+        return str(resp.metadata.name)
+
+
+@app.route('/config',methods=['GET'])
+#figs can be set in Configuration class directly or using helper
+
+def main1():
+    config.load_kube_config()
+    v1 = client.CoreV1Api()
+    print("Listing pods with their IPs:")
+    ret = v1.list_pod_for_all_namespaces(watch=False)
+    pods = []
+    pods.append({"node": "ip-192-168-29-111.ec2.internal", "ip": "192.168.20.222", "namespace": "free-service", "status": "Succeeded", "name": "mnist-deployment-4njrc-ftqvt"})
+    pods.append({"node": "ip-192-168-29-111.ec2.internal", "ip": "192.168.14.56", "status": "Succeeded", "namespace": "free-service", "name": "mnist-deployment-zd6qj-6ts24"})
+    for i in ret.items:
+        print(i.spec.node_name)
+        print(i.metadata.name)
+        print(i.status)
+        if i.metadata.name != "kube-proxy-2wswc" and i.metadata.name != "kube-proxy-hv5mx" and i.metadata.name != "aws-node-4fbqp" and i.metadata.name != "aws-node-9rlkv":
+            pods.append({"name": i.metadata.name, "ip": i.status.pod_ip, "namespace": i.metadata.namespace, "node": i.spec.node_name, "status": "Succeeded"})
+
+    output = {"pods": pods}
+    print(json.dumps(output))
+    return json.dumps(output)
+

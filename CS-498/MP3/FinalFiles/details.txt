@@ -1,0 +1,48 @@
+1. Create EC2 Master instance 
+2. Create eks Cluster from EC2 Master node (cluster.yaml file) 
+3. Create all the menstioned steps thorugh EC2 master (clusetr is a slaw nodes)
+   eksctl get cluster (to get all the clusters)
+4. install docker ( yum install -y docker)
+5. Start docker ( service docker start)
+6. Create Docker file to build the docker images (Dockerfile have all the required details)
+7. build image (docker build -t imagename .) and run (docker run imagename) (to set env varaible use Docker compose or inline command
+   (docker run imagename -e DATASET=mnist -e TYPE=ff)
+8. Push the image to the docker hub
+   http://hub.docker.com/    (it may fail to upload due to authenticaion  https://ropenscilabs.github.io/r-docker-tutorial/04-Dockerhub.html
+  or
+ docker login --username=yourhubusername --email=youremail@company.com
+ docker push yourhubusername/repositoryname:tagname
+ )
+9. install kubectl on the EC2 master node
+10. Check the kubectl configuration - https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html 
+11. install kubernrets
+12. create namespace kubectl create namespace <namespace name> (free-service)
+13. attach this namespace in the free-tier.yaml (free-service)
+13. get list of namespace (kubectl get pods --all-namespace)
+    kubectl get jobs
+14. to delete pod kubectl delete pod podname)
+15. delete all job (kubectl delete --all jobs or kubectl delete --all jobs --namespace=default)
+
+
+Userful commands
+Docker image delete
+https://docs.docker.com/engine/reference/commandline/image_rm/
+
+Docker compose for Doc env
+https://docs.docker.com/compose/reference/up/
+
+kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ 
+--docker-username=senthil338 --docker-password=itengg321$ --docker-email=786.senthil@gmail.com
+
+docker pull senthil338/my-college-proj
+
+kubectl delete job [job_name]
+kubectl delete deployment [deployment_name]
+https://github.com/kubernetes-client/python/
+https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-python3-boto3/
+https://flask.palletsprojects.com/en/1.1.x/installation/#installation
+https://flask.palletsprojects.com/en/1.1.x/quickstart/#quickstart
+https://kukulinski.com/10-most-common-reasons-kubernetes-deployments-fail-part-1/
+https://illinois.zoom.us/rec/play/u8J8Jr2qrTI3GdeWuQSDAPN_W47vKfisgCcd8_cJmEqxV3lSMFXzM7sRM7HCfWo3vV3me3PG7Wu77X3M?continueMode=true
+dockerhubaccount/repository:tagname

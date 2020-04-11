@@ -1,0 +1,41 @@
+https://www.wintellect.com/containerize-python-app-5-minutes/
+https://runnable.com/docker/python/dockerize-your-python-application
+https://stackoverflow.com/questions/49770999/docker-env-for-python-variables
+
+https://logz.io/blog/amazon-eks-cluster/
+
+arn:aws:iam::009433843718:role/eksrole
+
+new 
+SecurityGroups	sg-05df28c3c8e6e6b7b	
+Security group for the cluster control plane communication with worker nodes	-
+SubnetIds	
+subnet-0d395bcd45a3f7c41,subnet-09c2377bf1977fff0,subnet-08fa82b0ddafe9d87	
+All subnets in the VPC	-
+VpcId	vpc-06724e40a6f3485ff	The VPC Id
+
+
+
+aws eks --region us-east-1 create-cluster --name mycluster --role-arn arn:aws:iam::009433843718:role/eksrole --resources-vpc-config subnetIds=subnet-0d395bcd45a3f7c41,subnet-09c2377bf1977fff0,subnet-08fa82b0ddafe9d87,securityGroupIds=sg-05df28c3c8e6e6b7b
+
+
+eksctl create cluster --name mycluster --region us-east-1 --node-type t3.medium --nodegroup-name standard-workers --nodes 2 --nodes-min 1 --nodes-max 4 --managed --ssh-access --ssh-public-key sencollege.pub
+
+https://d1b10bmlvqabco.cloudfront.net/attach/k5k5ta49mzz4v5/jkvlub0iikj68a/k74fq177a44r/MP3_Guide.pdf
+mycluster
+
+aws eks --region us-east-1 describe-cluster --name demo --query 
+cluster.status
+
+aws eks --region us-east-1 update-kubeconfig --name mycluster
+
+eksctl get nodegroup --cluster mycluster
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.15.0-rc.1/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+curl --location "https://github.com/weaveworks/eksctl/releases/download/0.15.0-rc.1/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+curl --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl
+
+

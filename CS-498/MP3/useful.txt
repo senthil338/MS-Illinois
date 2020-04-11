@@ -1,0 +1,24 @@
+
+kubectl get pods
+kubectl get evetns
+kubectl create -f file.yaml
+kubectl delete pods img-classification-mnist-deployment-1n7gc4-b8xbq 
+kubectl delete pods img-classification-mnist-deployment-12cg6t-8v7g8
+kubectl delete pods img-classification-mnist-deployment-15jjdt-xbsj9
+kubectl delete pods img-classification-mnist-deployment-15x4gn-wwrtn
+kubectl delete pods img-classification-mnist-deployment-1fgqj6-kqkpw 
+kubectl delete pods img-classification-mnist-deployment-1lqcdg-ksjd2 
+https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#registry-secret-existing-credentials
+https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+https://kubernetes.io/docs/reference/kubectl/
+
+kubectl delete job [job_name]
+kubectl delete deployment [deployment_name]
+https://github.com/kubernetes-client/python/
+https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-python3-boto3/
+https://flask.palletsprojects.com/en/1.1.x/installation/#installation
+https://flask.palletsprojects.com/en/1.1.x/quickstart/#quickstart
+https://kukulinski.com/10-most-common-reasons-kubernetes-deployments-fail-part-1/
+https://illinois.zoom.us/rec/play/u8J8Jr2qrTI3GdeWuQSDAPN_W47vKfisgCcd8_cJmEqxV3lSMFXzM7sRM7HCfWo3vV3me3PG7Wu77X3M?continueMode=true
+dockerhubaccount/repository:tagname
+
