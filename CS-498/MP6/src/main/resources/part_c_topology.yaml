@@ -1,0 +1,117 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+
+# topology definition
+# name to be used when submitting
+name: "part-C"
+
+# TODO
+# Task: implement your topology for part c
+
+# topology configuration
+# this will be passed to the submitter as a map of config options
+config:
+    storm.local.hostname: "localhost"
+    topology.max.task.parallelism: 3
+    # set this to true if you want to see more debug log
+    # set it to false before submitting
+    topology.debug: false
+    topology.max.spout.pending: 1
+    input: "/tmp/data.txt"
+    # Hint: you can set input file path here
+    # make sure it's "/tmp/data.txt" in your final submission
+
+components:
+  - id: "poolConfig"
+    className: "org.apache.storm.redis.common.config.JedisPoolConfig"
+    constructorArgs:
+      - "localhost"
+      - 6379
+      - 2000
+      - "uiuc_cs498_mp6"
+      - 0
+        
+  - id: "mapper"
+    className: "edu.illinois.storm.WordCountStoreMapper"
+    constructorArgs:
+      - "partCWordCount"
+  # Hint: redis hash key for part C is "partCWordCount"
+
+# spout definitions
+spouts: 
+  - id: "fileReaderSpout"
+    className: "edu.illinois.storm.FileReaderSpout"
+    configMethods:
+      - name: "withInputFileProperties"
+        args: ["data.txt"]
+    parallelism: 1    
+  # Hint: the new file reading spout you need implement in this part is
+  # src/main/java/edu/illinois/storm/FileReaderSpout.java
+  # You need to pass file name here using <withInputFileProperties> function
+
+# bolt definitions
+bolts:
+  # Hint: the new normalize bolt you need implement in this part is
+  # src/main/java/edu/illinois/storm/NormalizerBolt.java
+  - id: "splitSentenceBolt"
+    className: "edu.illinois.storm.SplitSentenceBolt"
+    parallelism: 4 
+  
+  - id: "normalizerBolt"
+    className: "edu.illinois.storm.NormalizerBolt"
+    parallelism: 4
+
+  - id: "wordCountBolt"
+    className: "edu.illinois.storm.WordCountBolt"
+    parallelism: 4
+  
+  - id: "RedisStoreBolt"
+    className: "org.apache.storm.redis.bolt.RedisStoreBolt"
+    constructorArgs:
+      - ref: "poolConfig"
+      - ref: "mapper"
+    parallelism: 1   
+# stream definitions
+# stream definitions define connections between spouts and bolts.
+streams:
+  - name: "Spout --> Splitter"
+    from: "fileReaderSpout"
+    to: "splitSentenceBolt"
+    grouping:
+      type: SHUFFLE 
+
+  - name: "Splitter --> Normalizer"
+    from: "splitSentenceBolt"
+    to: "normalizerBolt"
+    grouping:
+      type: FIELDS
+      args: ["word"] 
+   
+  - name: "Normalizer --> Counter"
+    from: "normalizerBolt"
+    to: "wordCountBolt"
+    grouping:
+      type: FIELDS
+      args: ["word"] 
+
+  - name: "Counter --> Redis"
+    from: "wordCountBolt"
+    to: "RedisStoreBolt"
+    grouping:
+      type: GLOBAL    
+  # Hint: add new normalize bolt into the topology
