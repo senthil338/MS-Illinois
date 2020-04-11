@@ -1,1 +1,1 @@
-welcome to CS 498
+welcome to CS 498 Cloud Computing Application
